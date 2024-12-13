@@ -10,7 +10,7 @@ def find_max_happiness(grid):
             max_prev = 0
             if 0 < i < m - 1:
                 max_prev = max(dp[i - 1][j - 1], dp[i][j - 1], dp[i + 1][j - 1])
-            elif i == 0:
+            elif i == 0 and i < m - 1:
                 max_prev = max(dp[i][j - 1], dp[i + 1][j - 1])
             elif i == m - 1:
                 max_prev = max(dp[i - 1][j - 1], dp[i][j - 1])
