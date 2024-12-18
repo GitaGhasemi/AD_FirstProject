@@ -24,18 +24,19 @@ def find_max_happiness(grid):
     max_happiness = max(dp[i][n - 1] for i in range(m))
 
     # TODO: Find the path that gives the maximum happiness
-    # Example:
-    # Input: grid = [
-    # [5, 2, 3],
-    # [4, 14, 6],
-    # [7, 8, 10]
-    # ]
-    # Output:
-    # max_happiness = 7 + 14 + 10 = 31,
-    # path = [2, 1, 2] -> These items are index of the rows in the grid
-    # [2 -> 7, 1 -> 14, 2 -> 10]
-    # You need to find these indexes and then assign them to the path variable.
     path = [0] * n
+    # Find the row with the maximum happiness in the last column
+    end_row = max(range(m), key=lambda x: dp[x][n - 1])
+    path[n - 1] = end_row + 1  # Convert to 1-based index
+
+    # Backtrack to reconstruct the path
+    for j in range(n - 1, 0, -1):
+        if end_row > 0 and dp[end_row - 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
+            end_row -= 1
+        elif end_row < m - 1 and dp[end_row + 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
+            end_row += 1
+        # Otherwise, stay in the same row
+        path[j - 1] = end_row + 1  # Convert to 1-based index
 
     return max_happiness, path
 
