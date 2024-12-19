@@ -23,10 +23,15 @@ def find_max_happiness(grid):
 
     max_happiness = max(dp[i][n - 1] for i in range(m))
 
-    # TODO: Find the path that gives the maximum happiness
     path = [0] * n
     # Find the row with the maximum happiness in the last column
-    end_row = max(range(m), key=lambda x: dp[x][n - 1])
+    max_val = -float('inf')  # Initialize with a very small value
+    end_row = -1  # Initialize the row index
+    for i in range(m):
+        if dp[i][n - 1] > max_val:
+            max_val = dp[i][n - 1]
+            end_row = i
+
     path[n - 1] = end_row + 1  # Convert to 1-based index
 
     # Backtrack to reconstruct the path
@@ -34,7 +39,7 @@ def find_max_happiness(grid):
         if end_row > 0 and dp[end_row - 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
             end_row -= 1
         elif end_row < m - 1 and dp[end_row + 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
-            end_row += 1
+            end_row += 1 #check if that's nessesary 
         # Otherwise, stay in the same row
         path[j - 1] = end_row + 1  # Convert to 1-based index
 
