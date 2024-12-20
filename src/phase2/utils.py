@@ -44,13 +44,13 @@ def write_outputs(output_file, results):
             file.write("]\n\n")
 
             file.write("Greedy Approach:\n")
-            file.write(f"Result: {greedy_result}\n")
+            file.write(f"Max Happiness: {greedy_result}\n")
             file.write(f"Path: {greedy_path}\n")
             file.write(f"Time Complexity: O(m * n), m={len(grid)}, n={len(grid[0])}, {greedy_time * 1000:.3f} milliseconds\n")
             file.write(f"Memory Usage: {greedy_memory / 1024:.3f} KB\n\n")
 
             file.write("DP Approach:\n")
-            file.write(f"Result: {dp_result}\n")
+            file.write(f"Max Happiness: {dp_result}\n")
             file.write(f"Path: {dp_path}\n")
             file.write(f"Time Complexity: O(m * n), m={len(grid)}, n={len(grid[0])}, {dp_time * 1000:.3f} milliseconds\n")
             file.write(f"Memory Usage: {dp_memory / 1024:.3f} KB\n\n")

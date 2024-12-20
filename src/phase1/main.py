@@ -1,67 +1,103 @@
-# src/phase1/main.py
+import os
 
-# Import necessary functions
-from src.phase1.utils import read_input, write_output
+from src.interfaces.max_happiness_interface import MaxHappinessInterface
+from src.constants import NEG_INFINITY
 
+class MaxHappinessPhase1(MaxHappinessInterface):
+    def __init__(self, input_path=None, output_path=None):
+        # Default paths using os library if paths are not passed
+        if input_path is None:
+            input_path = os.path.join(os.path.dirname(__file__), 'input', 'sample_inputs.txt')
+        if output_path is None:
+            output_path = os.path.join(os.path.dirname(__file__), 'output', 'sample_outputs.txt')
 
-def find_max_happiness(grid):
-    m, n = len(grid), len(grid[0])
-    dp = [[0] * n for _ in range(m)]
-    for c in range(m):
-        dp[c][0] = grid[c][0]
-    for j in range(1, n):
+        self._input_path = os.path.abspath(input_path)
+        self._output_path = os.path.abspath(output_path)
+
+    @property
+    def input_path(self):
+        return self._input_path
+
+    @property
+    def output_path(self):
+        return self._output_path
+
+    def find_max_happiness_greedy(self, grid):
+        m, n = len(grid), len(grid[0])
+        path_stack = []
+        result_stack = []
+
+        # Find the row with the maximum value in the first column
+        max_value = NEG_INFINITY
+        current_row = 0
         for i in range(m):
-            max_prev = 0
-            if 0 < i < m - 1:
-                max_prev = max(dp[i - 1][j - 1], dp[i][j - 1], dp[i + 1][j - 1])
-            elif i == 0 and i < m - 1:
-                max_prev = max(dp[i][j - 1], dp[i + 1][j - 1])
-            elif i == m - 1:
-                max_prev = max(dp[i - 1][j - 1], dp[i][j - 1])
+            if grid[i][0] > max_value:
+                max_value = grid[i][0]
+                current_row = i
 
-            dp[i][j] = grid[i][j] + max_prev
+        result_stack.append(grid[current_row][0])
+        path_stack.append(current_row)
 
-    max_happiness = max(dp[i][n - 1] for i in range(m))
+        # Traverse column by column
+        for col in range(1, n):
+            neighbors = []
+            for delta in [-1, 0, 1]:
+                neighbor_row = current_row + delta
+                if 0 <= neighbor_row < m:
+                    neighbors.append((grid[neighbor_row][col], neighbor_row))
 
-    path = [0] * n
-    # Find the row with the maximum happiness in the last column
-    max_val = -float('inf')  # Initialize with a very small value
-    end_row = -1  # Initialize the row index
-    for i in range(m):
-        if dp[i][n - 1] > max_val:
-            max_val = dp[i][n - 1]
-            end_row = i
+            # Find the maximum neighbor
+            max_value = NEG_INFINITY
+            selected_row = current_row
+            for value, row in neighbors:
+                if value > max_value:
+                    max_value = value
+                    selected_row = row
 
-    path[n - 1] = end_row + 1  # Convert to 1-based index
+            result_stack.append(max_value)
+            path_stack.append(selected_row)
+            current_row = selected_row
 
-    # Backtrack to reconstruct the path
-    for j in range(n - 1, 0, -1):
-        if end_row > 0 and dp[end_row - 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
-            end_row -= 1
-        elif end_row < m - 1 and dp[end_row + 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
-            end_row += 1 #check if that's nessesary 
-        # Otherwise, stay in the same row
-        path[j - 1] = end_row + 1  # Convert to 1-based index
+        return sum(result_stack), [row + 1 for row in path_stack]
 
-    return max_happiness, path
+    def find_max_happiness_dp(self, grid):
+        m, n = len(grid), len(grid[0])
+        dp = [[0] * n for _ in range(m)]
 
+        # Initialize the first column
+        for c in range(m):
+            dp[c][0] = grid[c][0]
 
-def main():
-    input_file = "input/sample_inputs.txt"
-    output_file = "output/sample_outputs.txt"
+        # Fill the DP table
+        for j in range(1, n):
+            for i in range(m):
+                max_prev = 0
+                if 0 < i < m - 1:
+                    max_prev = max(dp[i - 1][j - 1], dp[i][j - 1], dp[i + 1][j - 1])
+                elif i == 0 and i < m - 1:
+                    max_prev = max(dp[i][j - 1], dp[i + 1][j - 1])
+                elif i == m - 1:
+                    max_prev = max(dp[i - 1][j - 1], dp[i][j - 1])
 
-    # Read input grids
-    grids = read_input(input_file)
+                dp[i][j] = grid[i][j] + max_prev
 
-    # Process each grid and calculate results
-    results = []
-    for _, _, grid in grids:
-        max_happiness, path = find_max_happiness(grid)
-        results.append((max_happiness, path))
+        # Find the maximum happiness and the ending row
+        max_happiness = NEG_INFINITY
+        end_row = 0
+        for i in range(m):
+            if dp[i][n - 1] > max_happiness:
+                max_happiness = dp[i][n - 1]
+                end_row = i
 
-        # Write results to the output file
-        write_output(output_file, results)
+        # Reconstruct the path
+        path = [0] * n
+        path[n - 1] = end_row + 1
 
+        for j in range(n - 1, 0, -1):
+            if end_row > 0 and dp[end_row - 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
+                end_row -= 1
+            elif end_row < m - 1 and dp[end_row + 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
+                end_row += 1
+            path[j - 1] = end_row + 1
 
-if __name__ == "__main__":
-    main()
+        return max_happiness, path

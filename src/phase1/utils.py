@@ -1,9 +1,4 @@
 def read_input(input_file):
-    """
-    Reads input from a file and returns a list of grids.
-    Each grid is represented as a tuple (m, n, grid).
-    Handles input format with example labels like 'Example 1:'.
-    """
     grids = []
     with open(input_file, 'r') as file:
         data = file.readlines()
@@ -11,44 +6,46 @@ def read_input(input_file):
     index = 0
     while index < len(data):
         line = data[index].strip()
-
-        # Skip empty lines or example labels
         if not line or line.startswith("Example"):
             index += 1
             continue
 
-        try:
-            # Parse grid dimensions
-            dims = line.split()
-            if len(dims) != 2:
-                raise ValueError("Invalid grid dimensions format.")
-            m, n = int(dims[0]), int(dims[1])
+        dims = line.split()
+        m, n = int(dims[0]), int(dims[1])
+        index += 1
+
+        grid = []
+        for _ in range(m):
+            grid_line = data[index].strip().split()
+            grid.append([
+                int(cell) for cell in grid_line
+            ])
             index += 1
-
-            # Parse the grid
-            grid = []
-            for _ in range(m):
-                grid_line = data[index].strip()
-                if not grid_line:
-                    raise ValueError("Unexpected empty line in grid data.")
-                grid.append(list(map(int, grid_line.split())))
-                index += 1
-
-            # Add parsed grid to the list
-            grids.append((m, n, grid))
-
-        except (ValueError, IndexError) as e:
-            print(f"Error parsing input at line {index + 1}: {e}")
-            index += 1  # Skip to the next line to continue parsing
+        grids.append(grid)
 
     return grids
 
-def write_output(output_file, results):
-    """
-    Writes results to a file.
-    Each result is a tuple (max_happiness, path).
-    """
+
+def write_output(output_file, results, dp_times, dp_memories):
     with open(output_file, 'w') as file:
-        for max_happiness, path in results:
-            file.write(f"{max_happiness}\n")
-            file.write(f"{path}\n\n")
+        for i, result in enumerate(results):
+            file.write(f"Example {i + 1}:\n")
+            file.write(f"Input:\n[\n")
+            for row in result["grid"]:
+                file.write(f"    {row},\n")
+            file.write(f"]\n\n")
+
+            file.write(f"DP Approach:\n")
+            file.write(f"Max Happiness: {result['dp']['max_happiness']}\n")
+            file.write(f"Path: {result['dp']['path']}\n\n")
+
+            file.write(f"Greedy Approach:\n")
+            file.write(f"Max Happiness: {result['greedy']['max_happiness']}\n")
+            file.write(f"Path: {result['greedy']['path']}\n\n")
+
+            dp_time = dp_times[i]  # Assuming dp_times contains the execution times for each example
+            dp_memory = dp_memories[i]  # Assuming dp_memories contains the memory usage for each example
+
+            file.write(f"Time Complexity: O(m * n), m={len(result['grid'])}, n={len(result['grid'][0])}, "
+                       f"{dp_time * 1000:.3f} milliseconds\n")
+            file.write(f"Memory Usage: {dp_memory / 1024:.3f} KB\n\n")
