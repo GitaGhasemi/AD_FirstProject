@@ -1,4 +1,4 @@
-from src.constants import REFRIGERATION_POINT, BLOCKED_CELL
+from src.constants import *
 
 
 class FileService:
@@ -12,7 +12,7 @@ class FileService:
         index = 0
         while index < len(data):
             line = data[index].strip()
-            if not line or line.startswith("Example"):
+            if not line or line.startswith(EXAMPLE_HEADER):
                 index += 1
                 continue
 
@@ -24,8 +24,8 @@ class FileService:
                 for _ in range(m):
                     grid_line = data[index].strip().split()
                     row = [
-                        REFRIGERATION_POINT if cell == "O"
-                        else BLOCKED_CELL if cell == "X"
+                        REFRIGERATION_POINT if cell == REFRIGERATION_SYMBOL
+                        else BLOCKED_CELL if cell == BLOCKED_SYMBOL
                         else int(cell)
                         for cell in grid_line
                     ]

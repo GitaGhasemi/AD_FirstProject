@@ -12,13 +12,13 @@ Greedy Approach:
 Max Happiness: 63
 Path: [3, 3, 3, 4, 4, 5]
 Time Complexity: O(m * n), m=5, n=6, 0.000 milliseconds
-Memory Usage: 1.234 KB
+Memory Usage: 1.125 KB
 
 DP Approach:
 Max Happiness: 63
 Path: [3, 3, 3, 4, 4, 5]
 Time Complexity: O(m * n), m=5, n=6, 0.000 milliseconds
-Memory Usage: 1.289 KB
+Memory Usage: 1.266 KB
 
 
 ----------------------------------------
@@ -152,7 +152,7 @@ Memory Usage: 0.055 KB
 DP Approach:
 Max Happiness: 12
 Path: [3]
-Time Complexity: O(m * n), m=5, n=1, 0.000 milliseconds
+Time Complexity: O(m * n), m=5, n=1, 0.999 milliseconds
 Memory Usage: 0.141 KB
 
 
@@ -222,7 +222,7 @@ Memory Usage: 0.082 KB
 DP Approach:
 Max Happiness: 705245094
 Path: [3, 2, 1]
-Time Complexity: O(m * n), m=3, n=3, 1.000 milliseconds
+Time Complexity: O(m * n), m=3, n=3, 0.000 milliseconds
 Memory Usage: 0.129 KB
 
 

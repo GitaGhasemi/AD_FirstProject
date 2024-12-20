@@ -1,15 +1,16 @@
 import os
 
 from src.interfaces.max_happiness_interface import MaxHappinessInterface
-from src.constants import NEG_INFINITY
+from src.constants import *
+
 
 class MaxHappinessPhase1(MaxHappinessInterface):
     def __init__(self, input_path=None, output_path=None):
         # Default paths using os library if paths are not passed
         if input_path is None:
-            input_path = os.path.join(os.path.dirname(__file__), 'input', 'sample_inputs.txt')
+            input_path = os.path.join(os.path.dirname(__file__), INPUT_FILE_PATH)
         if output_path is None:
-            output_path = os.path.join(os.path.dirname(__file__), 'output', 'sample_outputs.txt')
+            output_path = os.path.join(os.path.dirname(__file__), OUTPUT_FILE_PATH)
 
         self._input_path = os.path.abspath(input_path)
         self._output_path = os.path.abspath(output_path)
@@ -101,3 +102,27 @@ class MaxHappinessPhase1(MaxHappinessInterface):
             path[j - 1] = end_row + 1
 
         return max_happiness, path
+
+
+if __name__ == "__main__":
+    m, n = map(int, input("Enter grid dimensions (m n): ").split())
+
+    grid = []
+    print("Enter the grid row by row (each row separated by space):")
+
+    for i in range(m):
+        row = list(map(int, input(f"Row {i + 1}: ").split()))
+        grid.append(row)
+
+    phase1 = MaxHappinessPhase1()
+
+    greedy_result, greedy_path = phase1.find_max_happiness_greedy(grid)
+    dp_result, dp_path = phase1.find_max_happiness_dp(grid)
+
+    print("\nGreedy Approach:")
+    print(f"Max Happiness: {greedy_result}")
+    print(f"Path: {greedy_path}")
+
+    print("\nDynamic Programming Approach:")
+    print(f"Max Happiness: {dp_result}")
+    print(f"Path: {dp_path}")
