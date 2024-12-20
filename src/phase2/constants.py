@@ -1,0 +1,4 @@
+# Constants
+REFRIGERATION_POINT = 0
+BLOCKED_CELL = -1
+NEG_INFINITY = float('-inf')
