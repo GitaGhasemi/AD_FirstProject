@@ -61,13 +61,34 @@ class MaxHappinessPhase3(MaxHappinessInterface):
                 dp[i][j] = cell_value + max_prev if max_prev != NEG_INFINITY else NEG_INFINITY
 
         max_happiness = max(dp[i][n - 1] for i in range(m))
-        #path = self.backtrack_path(dp, grid, n, m)
+        path = self.backtrack_path(dp, grid, n, m)
 
-        return max_happiness, #path
+        return max_happiness, path
 
     @staticmethod
     def backtrack_path(dp, grid, n, m):
         pass
+        end_row = -1
+        max_val = NEG_INFINITY
+        for i in range(m):
+            if dp[i][n - 1] > max_val:
+                max_val = dp[i][n - 1]
+                end_row = i
+        path = [0] * n
+        path[n - 1] = end_row + 1  # Convert to 1-based index
+
+        for j in range(n - 1, 0, -1):
+            current_value = dp[end_row][j]
+            cell_value = grid[end_row][j]
+
+            if end_row > 0 and dp[end_row - 1][j - 1] == current_value - cell_value:
+                end_row -= 1
+            elif end_row < m - 1 and dp[end_row + 1][j - 1] == current_value - cell_value:
+                end_row += 1
+
+            path[j - 1] = end_row + 1
+
+        return path
 
 
 
