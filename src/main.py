@@ -78,12 +78,12 @@ def main():
     # Instantiate the interface implementation (you can add more implementations if needed)
     phase1 = MaxHappinessPhase1()
     phase2 = MaxHappinessPhase2()
-    # phase3 = MaxHappinessPhase3()
+    phase3 = MaxHappinessPhase3()
 
     # Attach the phase (interface implementation) to the executor
     executor.attach_phase(phase1)
     executor.attach_phase(phase2)
-    # executor.attach_phase(phase3)
+    executor.attach_phase(phase3)
 
     # Execute all the phases attached to the executor
     executor.execute_phases()
