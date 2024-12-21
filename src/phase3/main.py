@@ -3,6 +3,7 @@ import os
 from src.interfaces.max_happiness_interface import MaxHappinessInterface
 from src.constants import *
 
+
 class MaxHappinessPhase3(MaxHappinessInterface):
     def __init__(self, input_path=None, output_path=None):
         # Default paths using os library if paths are not passed
@@ -91,7 +92,6 @@ class MaxHappinessPhase3(MaxHappinessInterface):
         return path
 
 
-
 if __name__ == "__main__":
     m, n = map(int, input("Enter grid dimensions (m n): ").split())
 
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     print("Enter the grid row by row (each row separated by space):")
 
     for i in range(m):
-        row_input = input(f"Row {i+1}: ").split()
+        row_input = input(f"Row {i + 1}: ").split()
         row = []
         for cell in row_input:
             if cell == REFRIGERATION_SYMBOL:
@@ -110,7 +110,7 @@ if __name__ == "__main__":
                 try:
                     row.append(int(cell))
                 except ValueError:
-                    print(f"Invalid input '{cell}' in row {i+1}. Please enter valid grid values.")
+                    print(f"Invalid input '{cell}' in row {i + 1}. Please enter valid grid values.")
                     exit(1)
         grid.append(row)
 
