@@ -26,7 +26,44 @@ class MaxHappinessPhase3(MaxHappinessInterface):
         pass
 
     def find_max_happiness_dp(self, grid):
-        pass
+        m, n = len(grid), len(grid[0])
+        dp = [[NEG_INFINITY] * n for _ in range(m)]
+
+        for c in range(m):
+            dp[c][0] = REFRIGERATION_POINT if grid[c][0] == REFRIGERATION_POINT else grid[c][0]
+
+        for j in range(1, n):
+            for i in range(m):
+                if grid[i][j] == BLOCKED_CELL:
+                    dp[i][j] = NEG_INFINITY
+                    continue
+
+                cell_value = REFRIGERATION_POINT if grid[i][j] == REFRIGERATION_POINT else grid[i][j]
+                max_prev = NEG_INFINITY
+
+                if 0 < i < m - 1:
+                    max_prev = max(
+                        dp[i - 1][j - 1] - 1 if dp[i - 1][j - 1] != BLOCKED_CELL else NEG_INFINITY,
+                        dp[i][j - 1] + 1 if dp[i][j - 1] != BLOCKED_CELL else NEG_INFINITY,
+                        dp[i + 1][j - 1] - 1 if dp[i + 1][j - 1] != BLOCKED_CELL else NEG_INFINITY
+                    )
+                elif i == 0 and i < m - 1:
+                    max_prev = max(
+                        dp[i][j - 1] + 1 if dp[i][j - 1] != BLOCKED_CELL else NEG_INFINITY,
+                        dp[i + 1][j - 1] - 1 if dp[i + 1][j - 1] != BLOCKED_CELL else NEG_INFINITY
+                    )
+                elif i == m - 1:
+                    max_prev = max(
+                        dp[i - 1][j - 1] - 1 if dp[i - 1][j - 1] != BLOCKED_CELL else NEG_INFINITY,
+                        dp[i][j - 1] + 1 if dp[i][j - 1] != BLOCKED_CELL else NEG_INFINITY
+                    )
+
+                dp[i][j] = cell_value + max_prev if max_prev != NEG_INFINITY else NEG_INFINITY
+
+        max_happiness = max(dp[i][n - 1] for i in range(m))
+        #path = self.backtrack_path(dp, grid, n, m)
+
+        return max_happiness, #path
 
     @staticmethod
     def backtrack_path(dp, grid, n, m):
