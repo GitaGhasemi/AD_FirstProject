@@ -24,7 +24,7 @@ class MaxHappinessPhase3(MaxHappinessInterface):
         return self._output_path
 
     def find_max_happiness_greedy(self, grid):
-        pass
+        return 0, []
 
     def find_max_happiness_dp(self, grid):
         m, n = len(grid), len(grid[0])
