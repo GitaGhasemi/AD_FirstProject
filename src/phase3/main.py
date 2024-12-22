@@ -172,9 +172,9 @@ class MaxHappinessPhase3(MaxHappinessInterface):
             current_value = dp[end_row][j]
             cell_value = grid[end_row][j]
 
-            if end_row > 0 and dp[end_row - 1][j - 1] == current_value - cell_value:
+            if end_row > 0 and dp[end_row - 1][j - 1] == 1 + current_value - cell_value:
                 end_row -= 1
-            elif end_row < m - 1 and dp[end_row + 1][j - 1] == current_value - cell_value:
+            elif end_row < m - 1 and dp[end_row + 1][j - 1] == 1 + current_value - cell_value:
                 end_row += 1
 
             path[j - 1] = end_row + 1
