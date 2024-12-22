@@ -43,12 +43,22 @@ class MaxHappinessPhase2(MaxHappinessInterface):
             return 0 <= row < m and grid[row][col] != BLOCKED_CELL
 
         def get_next_start():
-            max_value = 0
-            selected_row_index = 0
+            selected_row_index = None
+            max_value = NEG_INFINITY
+            latest_zero_index = None
+
             for row in range(m):
-                if row not in excluded_neighbors[0] and grid[row][0] != BLOCKED_CELL and grid[row][0] > max_value:
-                    max_value = grid[row][0]
-                    selected_row_index = row
+                if row not in excluded_neighbors[0] and grid[row][0] != BLOCKED_CELL:
+                    value = grid[row][0]
+                    if value > max_value:
+                        max_value = value
+                        selected_row_index = row
+                if grid[row][0] == 0:
+                    latest_zero_index = row
+
+            if selected_row_index is None:
+                selected_row_index = latest_zero_index
+
             return selected_row_index
 
         current_col = 0
@@ -89,12 +99,6 @@ class MaxHappinessPhase2(MaxHappinessInterface):
 
             neighbors.sort(reverse=True, key=lambda x: x[0])
             selected_value, selected_row = neighbors[0]
-
-            if any(grid[row][current_col + 1] == REFRIGERATION_POINT for row in range(m)):
-                if grid[selected_row][current_col + 1] != REFRIGERATION_POINT and not any(
-                        grid[row][current_col + 1] == REFRIGERATION_POINT for row in path_stack):
-                    selected_row = next(row for row in range(m) if grid[row][current_col + 1] == REFRIGERATION_POINT)
-                    selected_value = REFRIGERATION_POINT
 
             visited_stack.append((selected_row, current_col + 1))
             result_stack.append(selected_value)
