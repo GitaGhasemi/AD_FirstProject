@@ -69,6 +69,54 @@ class MaxHappinessPhase3(MaxHappinessInterface):
         if current_row is None:  # No valid starting point in the entire grid
             return 0, []
 
+        visited_stack.append((current_row, current_col))
+        result_stack.append(grid[current_row][current_col])
+        path_stack.append(current_row)
+
+        while current_col < n - 1:
+            neighbors = []
+            for delta in [-1, 0, 1]:
+                neighbor_row = current_row + delta
+                if is_valid_cell(neighbor_row, current_col + 1) and\
+                        neighbor_row not in excluded_neighbors[current_col + 1]:
+                    value = grid[neighbor_row][current_col + 1]
+                    if delta == 0:
+                        value += 1
+                    else:
+                        value -= 1
+                    neighbors.append((value, neighbor_row))
+
+            if not neighbors:  # No valid neighbors, rollback
+                rollback()
+                if not result_stack:  # If rollback empties result_stack, find a new starting point
+                    current_row = None
+                    while current_col < n and current_row is None:
+                        current_row = get_next_start(current_col)
+                        if current_row is None:
+                            current_col += 1
+                    if current_row is None:  # No valid starting point
+                        return 0, []
+                    visited_stack = [(current_row, current_col)]
+                    result_stack = [grid[current_row][current_col]]
+                    path_stack = [current_row]
+                    excluded_neighbors[current_col].add(current_row)
+                    continue
+                current_col -= 1
+                current_row = path_stack[-1]
+                continue
+
+            neighbors.sort(reverse=True, key=lambda x: x[0])
+            selected_value, selected_row = neighbors[0]
+
+            visited_stack.append((selected_row, current_col + 1))
+            result_stack.append(selected_value)
+            path_stack.append(selected_row)
+
+            current_row = selected_row
+            current_col += 1
+
+        return sum(result_stack), [row + 1 for row in path_stack]
+
     def find_max_happiness_dp(self, grid):
         m, n = len(grid), len(grid[0])
         dp = [[NEG_INFINITY] * n for _ in range(m)]
@@ -111,7 +159,6 @@ class MaxHappinessPhase3(MaxHappinessInterface):
 
     @staticmethod
     def backtrack_path(dp, grid, n, m):
-        pass
         end_row = -1
         max_val = NEG_INFINITY
         for i in range(m):
