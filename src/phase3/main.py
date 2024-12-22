@@ -24,7 +24,50 @@ class MaxHappinessPhase3(MaxHappinessInterface):
         return self._output_path
 
     def find_max_happiness_greedy(self, grid):
-        return 0, []
+        m, n = len(grid), len(grid[0])
+        visited_stack = []
+        result_stack = []
+        path_stack = []
+        excluded_neighbors = [set() for _ in range(n)]
+
+        def rollback():
+            if result_stack:
+                result_stack.pop()
+            if path_stack:
+                row = path_stack.pop()
+                col = len(path_stack)
+                excluded_neighbors[col].add(row)
+            if visited_stack:
+                visited_stack.pop()
+
+        def is_valid_cell(row, col):
+            return 0 <= row < m and grid[row][col] != BLOCKED_CELL
+
+        def get_next_start(col):
+            """
+            Get the row index with the largest value in the specified column.
+            If no valid row exists, return None.
+            """
+            max_value = NEG_INFINITY
+            selected_row_index = None
+            for row in range(m):
+                if row not in excluded_neighbors[col] and grid[row][col] != BLOCKED_CELL:
+                    if grid[row][col] > max_value:
+                        max_value = grid[row][col]
+                        selected_row_index = row
+            return selected_row_index
+
+        current_col = 0
+        current_row = None
+
+        # Find the first valid starting point
+        while current_col < n and current_row is None:
+            current_row = get_next_start(current_col)
+            if current_row is None:
+                current_col += 1
+
+        if current_row is None:  # No valid starting point in the entire grid
+            return 0, []
 
     def find_max_happiness_dp(self, grid):
         m, n = len(grid), len(grid[0])
