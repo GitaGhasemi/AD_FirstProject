@@ -11,14 +11,14 @@ Input:
 Greedy Approach:
 Max Happiness: 63
 Path: [3, 3, 3, 4, 4, 5]
-Time Complexity: O(m * n), m=5, n=6, 0.000 milliseconds
-Memory Usage: 1.125 KB
+Time Complexity: O(m * n), m=5, n=6, 0.065 milliseconds
+Memory Usage: 0.227 KB
 
 DP Approach:
 Max Happiness: 63
 Path: [3, 3, 3, 4, 4, 5]
-Time Complexity: O(m * n), m=5, n=6, 0.000 milliseconds
-Memory Usage: 1.289 KB
+Time Complexity: O(m * n), m=5, n=6, 0.052 milliseconds
+Memory Usage: 0.320 KB
 
 
 ----------------------------------------
@@ -33,13 +33,13 @@ Input:
 Greedy Approach:
 Max Happiness: 24
 Path: [3, 3, 3]
-Time Complexity: O(m * n), m=3, n=3, 0.000 milliseconds
-Memory Usage: 0.055 KB
+Time Complexity: O(m * n), m=3, n=3, 0.021 milliseconds
+Memory Usage: 0.031 KB
 
 DP Approach:
 Max Happiness: 24
 Path: [3, 3, 3]
-Time Complexity: O(m * n), m=3, n=3, 0.000 milliseconds
+Time Complexity: O(m * n), m=3, n=3, 0.027 milliseconds
 Memory Usage: 0.047 KB
 
 
@@ -56,13 +56,13 @@ Input:
 Greedy Approach:
 Max Happiness: 58
 Path: [4, 4, 4, 4]
-Time Complexity: O(m * n), m=4, n=4, 0.000 milliseconds
+Time Complexity: O(m * n), m=4, n=4, 0.022 milliseconds
 Memory Usage: 0.055 KB
 
 DP Approach:
 Max Happiness: 58
 Path: [4, 4, 4, 4]
-Time Complexity: O(m * n), m=4, n=4, 0.000 milliseconds
+Time Complexity: O(m * n), m=4, n=4, 0.032 milliseconds
 Memory Usage: 0.219 KB
 
 
@@ -78,13 +78,13 @@ Input:
 Greedy Approach:
 Max Happiness: 99
 Path: [3, 3, 2, 2]
-Time Complexity: O(m * n), m=3, n=4, 0.000 milliseconds
+Time Complexity: O(m * n), m=3, n=4, 0.023 milliseconds
 Memory Usage: 0.055 KB
 
 DP Approach:
 Max Happiness: 99
 Path: [3, 3, 3, 2]
-Time Complexity: O(m * n), m=3, n=4, 0.000 milliseconds
+Time Complexity: O(m * n), m=3, n=4, 0.030 milliseconds
 Memory Usage: 0.109 KB
 
 
@@ -98,13 +98,13 @@ Input:
 Greedy Approach:
 Max Happiness: 150
 Path: [1, 1, 1, 1, 1]
-Time Complexity: O(m * n), m=1, n=5, 0.000 milliseconds
+Time Complexity: O(m * n), m=1, n=5, 0.026 milliseconds
 Memory Usage: 0.086 KB
 
 DP Approach:
 Max Happiness: 150
 Path: [1, 1, 1, 1, 1]
-Time Complexity: O(m * n), m=1, n=5, 0.000 milliseconds
+Time Complexity: O(m * n), m=1, n=5, 0.041 milliseconds
 Memory Usage: 0.062 KB
 
 
@@ -122,13 +122,13 @@ Input:
 Greedy Approach:
 Max Happiness: 50
 Path: [5]
-Time Complexity: O(m * n), m=5, n=1, 0.000 milliseconds
+Time Complexity: O(m * n), m=5, n=1, 0.010 milliseconds
 Memory Usage: 0.055 KB
 
 DP Approach:
 Max Happiness: 50
 Path: [5]
-Time Complexity: O(m * n), m=5, n=1, 0.000 milliseconds
+Time Complexity: O(m * n), m=5, n=1, 0.039 milliseconds
 Memory Usage: 0.359 KB
 
 
@@ -146,13 +146,13 @@ Input:
 Greedy Approach:
 Max Happiness: 12
 Path: [3]
-Time Complexity: O(m * n), m=5, n=1, 0.000 milliseconds
+Time Complexity: O(m * n), m=5, n=1, 0.010 milliseconds
 Memory Usage: 0.055 KB
 
 DP Approach:
 Max Happiness: 12
 Path: [3]
-Time Complexity: O(m * n), m=5, n=1, 0.000 milliseconds
+Time Complexity: O(m * n), m=5, n=1, 0.024 milliseconds
 Memory Usage: 0.141 KB
 
 
@@ -171,13 +171,13 @@ Input:
 Greedy Approach:
 Max Happiness: 76
 Path: [6, 6, 6, 6, 6, 6, 6, 6]
-Time Complexity: O(m * n), m=6, n=8, 0.000 milliseconds
+Time Complexity: O(m * n), m=6, n=8, 0.037 milliseconds
 Memory Usage: 0.086 KB
 
 DP Approach:
 Max Happiness: 134
 Path: [6, 6, 6, 6, 5, 4, 3, 2]
-Time Complexity: O(m * n), m=6, n=8, 0.000 milliseconds
+Time Complexity: O(m * n), m=6, n=8, 0.048 milliseconds
 Memory Usage: 0.250 KB
 
 
@@ -194,13 +194,13 @@ Input:
 Greedy Approach:
 Max Happiness: 30
 Path: [1, 2, 3, 4]
-Time Complexity: O(m * n), m=4, n=4, 0.000 milliseconds
+Time Complexity: O(m * n), m=4, n=4, 0.022 milliseconds
 Memory Usage: 0.055 KB
 
 DP Approach:
 Max Happiness: 30
 Path: [1, 2, 3, 4]
-Time Complexity: O(m * n), m=4, n=4, 0.000 milliseconds
+Time Complexity: O(m * n), m=4, n=4, 0.029 milliseconds
 Memory Usage: 0.055 KB
 
 
@@ -216,14 +216,14 @@ Input:
 Greedy Approach:
 Max Happiness: 705245094
 Path: [3, 2, 1]
-Time Complexity: O(m * n), m=3, n=3, 0.000 milliseconds
+Time Complexity: O(m * n), m=3, n=3, 0.020 milliseconds
 Memory Usage: 0.082 KB
 
 DP Approach:
 Max Happiness: 705245094
 Path: [3, 2, 1]
-Time Complexity: O(m * n), m=3, n=3, 0.000 milliseconds
-Memory Usage: 0.129 KB
+Time Complexity: O(m * n), m=3, n=3, 0.045 milliseconds
+Memory Usage: 0.133 KB
 
 
 ----------------------------------------

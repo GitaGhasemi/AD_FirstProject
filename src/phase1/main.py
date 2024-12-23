@@ -6,7 +6,6 @@ from src.constants import *
 
 class MaxHappinessPhase1(MaxHappinessInterface):
     def __init__(self, input_path=None, output_path=None):
-        # Default paths using os library if paths are not passed
         if input_path is None:
             input_path = os.path.join(os.path.dirname(__file__), INPUT_FILE_PATH)
         if output_path is None:
@@ -23,10 +22,11 @@ class MaxHappinessPhase1(MaxHappinessInterface):
     def output_path(self):
         return self._output_path
 
+    # Greedy approach for finding maximum happiness path
     def find_max_happiness_greedy(self, grid):
         m, n = len(grid), len(grid[0])
-        path_stack = []
-        result_stack = []
+        path_stack = [] # Stores the path (row indices)
+        result_stack = [] # Stores the values at each step along the path
 
         # Find the row with the maximum value in the first column
         max_value = NEG_INFINITY
@@ -39,7 +39,7 @@ class MaxHappinessPhase1(MaxHappinessInterface):
         result_stack.append(grid[current_row][0])
         path_stack.append(current_row)
 
-        # Traverse column by column
+        # Traverse column by column, finding the best next step in each column
         for col in range(1, n):
             neighbors = []
             for delta in [-1, 0, 1]:
@@ -47,7 +47,7 @@ class MaxHappinessPhase1(MaxHappinessInterface):
                 if 0 <= neighbor_row < m:
                     neighbors.append((grid[neighbor_row][col], neighbor_row))
 
-            # Find the maximum neighbor
+            # Find the maximum neighbor value and move to that row
             max_value = NEG_INFINITY
             selected_row = current_row
             for value, row in neighbors:
@@ -61,18 +61,21 @@ class MaxHappinessPhase1(MaxHappinessInterface):
 
         return sum(result_stack), [row + 1 for row in path_stack]
 
+    # Dynamic Programming approach for finding maximum happiness path
     def find_max_happiness_dp(self, grid):
         m, n = len(grid), len(grid[0])
-        dp = [[0] * n for _ in range(m)]
+        dp = [[0] * n for _ in range(m)] # DP table to store maximum happiness values
 
-        # Initialize the first column
+        # Initialize the first column of the DP table
         for c in range(m):
             dp[c][0] = grid[c][0]
 
-        # Fill the DP table
-        for j in range(1, n):
-            for i in range(m):
+        # Fill the DP table by storing the sum of the maximum value from neighboring cells and current value
+        for j in range(1, n): # Iterate over columns starting from the second column
+            for i in range(m): # Iterate over rows
                 max_prev = 0
+
+                 # Check the valid neighbors in the previous column
                 if 0 < i < m - 1:
                     max_prev = max(dp[i - 1][j - 1], dp[i][j - 1], dp[i + 1][j - 1])
                 elif i == 0 and i < m - 1:
@@ -80,9 +83,10 @@ class MaxHappinessPhase1(MaxHappinessInterface):
                 elif i == m - 1:
                     max_prev = max(dp[i - 1][j - 1], dp[i][j - 1])
 
+                # Store the sum of the current value and the max value of the previous neighbors
                 dp[i][j] = grid[i][j] + max_prev
 
-        # Find the maximum happiness and the ending row
+        # Find the maximum happiness and the ending row in the last column
         max_happiness = NEG_INFINITY
         end_row = 0
         for i in range(m):
@@ -90,14 +94,18 @@ class MaxHappinessPhase1(MaxHappinessInterface):
                 max_happiness = dp[i][n - 1]
                 end_row = i
 
-        # Reconstruct the path
+        # Reconstruct the path by backtracking from the last column
         path = [0] * n
         path[n - 1] = end_row + 1
 
         for j in range(n - 1, 0, -1):
-            if end_row > 0 and dp[end_row - 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
+            # Calculate the possible neighbors from the previous column
+            prev_value = dp[end_row][j] - grid[end_row][j]
+
+            # Compare the previous value to neighbors in the previous column and check if it matches
+            if end_row > 0 and dp[end_row - 1][j - 1] == prev_value:
                 end_row -= 1
-            elif end_row < m - 1 and dp[end_row + 1][j - 1] == dp[end_row][j] - grid[end_row][j]:
+            elif end_row < m - 1 and dp[end_row + 1][j - 1] == prev_value:
                 end_row += 1
             path[j - 1] = end_row + 1
 
