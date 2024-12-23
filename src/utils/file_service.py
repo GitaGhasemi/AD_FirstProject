@@ -45,7 +45,6 @@ class FileService:
                 dp_result = result["dp"]["max_happiness"]
                 dp_path = result["dp"]["path"]
 
-                # Greedy and DP times and memory need to be fetched separately, as they are not included in the result
                 greedy_time = result.get("greedy_time", 0)
                 greedy_memory = result.get("greedy_memory", 0)
                 dp_time = result.get("dp_time", 0)

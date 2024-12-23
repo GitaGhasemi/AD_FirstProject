@@ -6,7 +6,6 @@ from src.constants import *
 
 class MaxHappinessPhase3(MaxHappinessInterface):
     def __init__(self, input_path=None, output_path=None):
-        # Default paths using os library if paths are not passed
         if input_path is None:
             input_path = os.path.join(os.path.dirname(__file__), INPUT_FILE_PATH)
         if output_path is None:
@@ -23,14 +22,18 @@ class MaxHappinessPhase3(MaxHappinessInterface):
     def output_path(self):
         return self._output_path
 
+    # Greedy approach for finding max happiness
     def find_max_happiness_greedy(self, grid):
         m, n = len(grid), len(grid[0])
-        visited_stack = []
-        result_stack = []
-        path_stack = []
+        visited_stack = []  # Stack to track visited cells
+        result_stack = []   # Stack to track happiness values
+        path_stack = []     # Stack to track the path taken
         excluded_neighbors = [set() for _ in range(n)]
 
         def rollback():
+            """
+            Rolls back the last step taken in the path if no valid neighbors are available.
+            """
             if result_stack:
                 result_stack.pop()
             if path_stack:
@@ -41,6 +44,9 @@ class MaxHappinessPhase3(MaxHappinessInterface):
                 visited_stack.pop()
 
         def is_valid_cell(row, col):
+            """
+            Checks if a cell is within bounds and not blocked.
+            """
             return 0 <= row < m and grid[row][col] != BLOCKED_CELL
 
         def get_next_start(col):
@@ -66,7 +72,7 @@ class MaxHappinessPhase3(MaxHappinessInterface):
             if current_row is None:
                 current_col += 1
 
-        if current_row is None:  # No valid starting point in the entire grid
+        if current_row is None:
             return 0, []
 
         visited_stack.append((current_row, current_col))
@@ -75,11 +81,14 @@ class MaxHappinessPhase3(MaxHappinessInterface):
 
         while current_col < n - 1:
             neighbors = []
+            # Explore neighbors in the next column
             for delta in [-1, 0, 1]:
                 neighbor_row = current_row + delta
                 if is_valid_cell(neighbor_row, current_col + 1) and\
                         neighbor_row not in excluded_neighbors[current_col + 1]:
                     value = grid[neighbor_row][current_col + 1]
+
+                    # Adjust the value based on the direction (down, straight, up)
                     if delta == 0:
                         value += 1
                     else:
@@ -105,6 +114,7 @@ class MaxHappinessPhase3(MaxHappinessInterface):
                 current_row = path_stack[-1]
                 continue
 
+            # Sort neighbors by value in descending order and select the best one
             neighbors.sort(reverse=True, key=lambda x: x[0])
             selected_value, selected_row = neighbors[0]
 
@@ -117,6 +127,7 @@ class MaxHappinessPhase3(MaxHappinessInterface):
 
         return sum(result_stack), [row + 1 for row in path_stack]
 
+    # Dynamic Programming approach for finding max happiness
     def find_max_happiness_dp(self, grid):
         m, n = len(grid), len(grid[0])
         dp = [[NEG_INFINITY] * n for _ in range(m)]
@@ -133,6 +144,7 @@ class MaxHappinessPhase3(MaxHappinessInterface):
                 cell_value = REFRIGERATION_POINT if grid[i][j] == REFRIGERATION_POINT else grid[i][j]
                 max_prev = NEG_INFINITY
 
+                # Check the possible previous cells (up, left, down)
                 if 0 < i < m - 1:
                     max_prev = max(
                         dp[i - 1][j - 1] - 1 if dp[i - 1][j - 1] != BLOCKED_CELL else NEG_INFINITY,
@@ -157,6 +169,7 @@ class MaxHappinessPhase3(MaxHappinessInterface):
 
         return max_happiness, path
 
+    # Backtrack to find the path that resulted in max happiness
     @staticmethod
     def backtrack_path(dp, grid, n, m):
         end_row = -1
@@ -166,7 +179,7 @@ class MaxHappinessPhase3(MaxHappinessInterface):
                 max_val = dp[i][n - 1]
                 end_row = i
         path = [0] * n
-        path[n - 1] = end_row + 1  # Convert to 1-based index
+        path[n - 1] = end_row + 1
 
         for j in range(n - 1, 0, -1):
             current_value = dp[end_row][j]

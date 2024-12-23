@@ -22,32 +22,37 @@ class MaxHappinessPhase2(MaxHappinessInterface):
     def output_path(self):
         return self._output_path
 
+    # Greedy approach to find the maximum happiness and the path
     def find_max_happiness_greedy(self, grid):
         m, n = len(grid), len(grid[0])
-        visited_stack = []
-        result_stack = []
-        path_stack = []
-        excluded_neighbors = [set() for _ in range(n)]
+        visited_stack = []  # Stack to track visited cells
+        result_stack = [] # Stack to store the happiness values
+        path_stack = [] # Stack to store the path (row indices)
+        excluded_neighbors = [set() for _ in range(n)] # To track excluded neighbors in each column
 
+        # Rollback function to backtrack when no valid move is possible
         def rollback():
             if result_stack:
-                result_stack.pop()
+                result_stack.pop()  # Remove the last happiness value
             if path_stack:
-                row = path_stack.pop()
-                col = len(path_stack)
-                excluded_neighbors[col].add(row)
+                row = path_stack.pop()  # Remove the last row from path
+                col = len(path_stack)  # Get current column index
+                excluded_neighbors[col].add(row)  # Exclude the row for the current column
             if visited_stack:
-                visited_stack.pop()
+                visited_stack.pop()  # Remove last visited cell
 
+        # Check if the cell is valid (within bounds and not blocked)
         def is_valid_cell(row, col):
             return 0 <= row < m and grid[row][col] != BLOCKED_CELL
 
+        # Function to get the next valid starting row
         def get_next_start():
             selected_row_index = None
             max_value = NEG_INFINITY
             latest_zero_index = None
 
             for row in range(m):
+                # If row is not excluded and the cell is not blocked
                 if row not in excluded_neighbors[0] and grid[row][0] != BLOCKED_CELL:
                     value = grid[row][0]
                     if value > max_value:
@@ -71,8 +76,10 @@ class MaxHappinessPhase2(MaxHappinessInterface):
         result_stack.append(grid[current_row][current_col])
         path_stack.append(current_row)
 
+        # Greedy approach to move through the grid
         while current_col < n - 1:
             neighbors = []
+            # Check the neighbors of the current cell (up, down, and straight)
             for delta in [-1, 0, 1]:
                 neighbor_row = current_row + delta
                 if is_valid_cell(neighbor_row, current_col + 1) and \
@@ -81,7 +88,7 @@ class MaxHappinessPhase2(MaxHappinessInterface):
                     if value != BLOCKED_CELL:
                         neighbors.append((value, neighbor_row))
 
-            if not neighbors:
+            if not neighbors:  # If no valid neighbors, perform a rollback
                 rollback()
                 if not result_stack:
                     current_row = get_next_start()
@@ -97,9 +104,11 @@ class MaxHappinessPhase2(MaxHappinessInterface):
                 current_row = path_stack[-1]
                 continue
 
+            # Sort the neighbors by value (in descending order)
             neighbors.sort(reverse=True, key=lambda x: x[0])
             selected_value, selected_row = neighbors[0]
 
+            # Add the selected neighbor to the stacks
             visited_stack.append((selected_row, current_col + 1))
             result_stack.append(selected_value)
             path_stack.append(selected_row)
@@ -109,6 +118,7 @@ class MaxHappinessPhase2(MaxHappinessInterface):
 
         return sum(result_stack), [row + 1 for row in path_stack]
 
+    # Dynamic Programming approach to find the maximum happiness and the path
     def find_max_happiness_dp(self, grid):
         m, n = len(grid), len(grid[0])
         dp = [[NEG_INFINITY] * n for _ in range(m)]
@@ -116,6 +126,7 @@ class MaxHappinessPhase2(MaxHappinessInterface):
         for c in range(m):
             dp[c][0] = REFRIGERATION_POINT if grid[c][0] == REFRIGERATION_POINT else grid[c][0]
 
+        # DP calculation for the rest of the columns
         for j in range(1, n):
             for i in range(m):
                 if grid[i][j] == BLOCKED_CELL:
@@ -125,6 +136,7 @@ class MaxHappinessPhase2(MaxHappinessInterface):
                 cell_value = REFRIGERATION_POINT if grid[i][j] == REFRIGERATION_POINT else grid[i][j]
                 max_prev = NEG_INFINITY
 
+                # Check valid neighbors (left, upper-left, lower-left)
                 if 0 < i < m - 1:
                     max_prev = max(
                         dp[i - 1][j - 1] if dp[i - 1][j - 1] != BLOCKED_CELL else NEG_INFINITY,
@@ -149,6 +161,7 @@ class MaxHappinessPhase2(MaxHappinessInterface):
 
         return max_happiness, path
 
+    # Backtrack through the DP table to find the optimal path
     @staticmethod
     def backtrack_path(dp, grid, n, m):
         end_row = -1
@@ -158,7 +171,7 @@ class MaxHappinessPhase2(MaxHappinessInterface):
                 max_val = dp[i][n - 1]
                 end_row = i
         path = [0] * n
-        path[n - 1] = end_row + 1  # Convert to 1-based index
+        path[n - 1] = end_row + 1 
 
         for j in range(n - 1, 0, -1):
             current_value = dp[end_row][j]

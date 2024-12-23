@@ -11,13 +11,13 @@ Input:
 Greedy Approach:
 Max Happiness: 37
 Path: [4, 3, 2, 1, 1, 1]
-Time Complexity: O(m * n), m=5, n=6, 0.105 milliseconds
+Time Complexity: O(m * n), m=5, n=6, 0.115 milliseconds
 Memory Usage: 0.062 KB
 
 DP Approach:
 Max Happiness: 38
 Path: [3, 3, 2, 1, 1, 1]
-Time Complexity: O(m * n), m=5, n=6, 0.079 milliseconds
+Time Complexity: O(m * n), m=5, n=6, 0.087 milliseconds
 Memory Usage: 0.047 KB
 
 
@@ -34,7 +34,7 @@ Input:
 Greedy Approach:
 Max Happiness: 14
 Path: [4, 4, 3, 2, 2]
-Time Complexity: O(m * n), m=4, n=5, 0.059 milliseconds
+Time Complexity: O(m * n), m=4, n=5, 0.065 milliseconds
 Memory Usage: 0.062 KB
 
 DP Approach:
@@ -57,7 +57,7 @@ Input:
 Greedy Approach:
 Max Happiness: 164
 Path: [1, 1, 1, 1]
-Time Complexity: O(m * n), m=4, n=4, 0.044 milliseconds
+Time Complexity: O(m * n), m=4, n=4, 0.062 milliseconds
 Memory Usage: 0.031 KB
 
 DP Approach:
@@ -81,13 +81,13 @@ Input:
 Greedy Approach:
 Max Happiness: 104
 Path: [4, 4, 5, 5, 5]
-Time Complexity: O(m * n), m=5, n=5, 0.055 milliseconds
+Time Complexity: O(m * n), m=5, n=5, 0.057 milliseconds
 Memory Usage: 0.062 KB
 
 DP Approach:
 Max Happiness: 104
 Path: [4, 4, 5, 5, 5]
-Time Complexity: O(m * n), m=5, n=5, 0.052 milliseconds
+Time Complexity: O(m * n), m=5, n=5, 0.054 milliseconds
 Memory Usage: 0.039 KB
 
 
@@ -105,13 +105,13 @@ Input:
 Greedy Approach:
 Max Happiness: 83
 Path: [5, 5, 5, 4, 4]
-Time Complexity: O(m * n), m=5, n=5, 0.055 milliseconds
+Time Complexity: O(m * n), m=5, n=5, 0.057 milliseconds
 Memory Usage: 0.062 KB
 
 DP Approach:
 Max Happiness: 83
 Path: [5, 5, 5, 4, 4]
-Time Complexity: O(m * n), m=5, n=5, 0.053 milliseconds
+Time Complexity: O(m * n), m=5, n=5, 0.054 milliseconds
 Memory Usage: 0.039 KB
 
 
@@ -129,13 +129,13 @@ Input:
 Greedy Approach:
 Max Happiness: 164
 Path: [5, 5, 5, 5, 5]
-Time Complexity: O(m * n), m=5, n=5, 0.056 milliseconds
+Time Complexity: O(m * n), m=5, n=5, 0.057 milliseconds
 Memory Usage: 0.062 KB
 
 DP Approach:
 Max Happiness: 213
 Path: [5, 5, 4, 3, 2]
-Time Complexity: O(m * n), m=5, n=5, 0.052 milliseconds
+Time Complexity: O(m * n), m=5, n=5, 0.054 milliseconds
 Memory Usage: 0.039 KB
 
 
@@ -154,13 +154,13 @@ Input:
 Greedy Approach:
 Max Happiness: 269
 Path: [4, 5, 5, 6, 6, 6, 6]
-Time Complexity: O(m * n), m=6, n=7, 0.072 milliseconds
+Time Complexity: O(m * n), m=6, n=7, 0.081 milliseconds
 Memory Usage: 0.090 KB
 
 DP Approach:
 Max Happiness: 270
 Path: [4, 5, 6, 6, 6, 6, 6]
-Time Complexity: O(m * n), m=6, n=7, 0.084 milliseconds
+Time Complexity: O(m * n), m=6, n=7, 0.107 milliseconds
 Memory Usage: 0.195 KB
 
 
@@ -178,13 +178,13 @@ Input:
 Greedy Approach:
 Max Happiness: 302
 Path: [3, 3, 3, 4, 4]
-Time Complexity: O(m * n), m=5, n=5, 0.078 milliseconds
+Time Complexity: O(m * n), m=5, n=5, 0.115 milliseconds
 Memory Usage: 0.090 KB
 
 DP Approach:
 Max Happiness: 302
 Path: [3, 3, 3, 4, 4]
-Time Complexity: O(m * n), m=5, n=5, 0.067 milliseconds
+Time Complexity: O(m * n), m=5, n=5, 0.068 milliseconds
 Memory Usage: 0.125 KB
 
 
@@ -207,13 +207,13 @@ Input:
 Greedy Approach:
 Max Happiness: 545
 Path: [3, 2, 3, 3, 4, 3, 4, 4, 5, 5]
-Time Complexity: O(m * n), m=10, n=10, 0.103 milliseconds
+Time Complexity: O(m * n), m=10, n=10, 0.116 milliseconds
 Memory Usage: 0.152 KB
 
 DP Approach:
 Max Happiness: 579
 Path: [3, 4, 4, 3, 3, 2, 1, 1, 1, 2]
-Time Complexity: O(m * n), m=10, n=10, 0.358 milliseconds
+Time Complexity: O(m * n), m=10, n=10, 0.359 milliseconds
 Memory Usage: 0.492 KB
 
 
